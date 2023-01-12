@@ -1,3 +1,5 @@
+package com.ukj.exam.board;
+
 import java.util.Scanner;
 
 public class Container {
