@@ -2,27 +2,25 @@ package com.ukj.exam.board.controller;
 
 import com.ukj.exam.board.Article;
 import com.ukj.exam.board.Rq;
+import com.ukj.exam.board.container.Container;
 import com.ukj.exam.board.service.ArticleService;
 
-import java.sql.Connection;
 import java.util.List;
-import java.util.Scanner;
 
 public class ArticleController extends Controller {
-
   private ArticleService articleService;
 
-  public ArticleController(Connection conn, Scanner sc, Rq rq) {
-    super(sc, rq);
-    articleService = new ArticleService(conn);
+  public ArticleController() {
+    articleService = Container.articleService;
   }
+
 
   public void add() {
     System.out.println("\n== 게시물 등록 ==");
     System.out.printf("제목: ");
-    String title = sc.nextLine();
+    String title = Container.scanner.nextLine();
     System.out.printf("내용: ");
-    String body = sc.nextLine();
+    String body = Container.scanner.nextLine();
 
     int id = articleService.add(title, body);
 
@@ -47,7 +45,7 @@ public class ArticleController extends Controller {
 
   }
 
-  public void showDetail() {
+  public void showDetail(Rq rq) {
     int id = rq.getIntParam("id", 0);
 
     if (id == 0) {
@@ -71,7 +69,7 @@ public class ArticleController extends Controller {
 
   }
 
-  public void remove() {
+  public void remove(Rq rq) {
     int id = rq.getIntParam("id", 0);
 
     if (id == 0) {
@@ -92,7 +90,7 @@ public class ArticleController extends Controller {
 
   }
 
-  public void modify() {
+  public void modify(Rq rq) {
     int id = rq.getIntParam("id", 0);
 
     if (id == 0) {
@@ -101,9 +99,9 @@ public class ArticleController extends Controller {
     }
 
     System.out.print("새 제목: ");
-    String title = sc.nextLine();
+    String title = Container.scanner.nextLine();
     System.out.print("새 내용: ");
-    String body = sc.nextLine();
+    String body = Container.scanner.nextLine();
 
     articleService.update(id, title, body);
 

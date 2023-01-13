@@ -1,6 +1,7 @@
 package com.ukj.exam.board.controller;
 
 import com.ukj.exam.board.Member;
+import com.ukj.exam.board.container.Container;
 import com.ukj.exam.board.service.MemberService;
 
 import java.sql.Connection;
@@ -10,10 +11,10 @@ public class MemberController extends Controller {
 
   private MemberService memberService;
 
-  public MemberController(Connection conn, Scanner sc) {
-    super(sc);
-    memberService = new MemberService(conn);
+  public MemberController() {
+    memberService = Container.memberService;
   }
+
   public void join() {
     String loginId;
     String loginPw;
@@ -25,7 +26,7 @@ public class MemberController extends Controller {
     //아이디 입력
     while (true) {
       System.out.printf("로그인 아이디: ");
-      loginId = sc.nextLine().trim();
+      loginId = Container.scanner.nextLine().trim();
 
       if (loginId.length() == 0) {
         System.out.println("아이디를 입력해주세요.");
@@ -44,7 +45,7 @@ public class MemberController extends Controller {
     //비밀번호 입력
     while (true) {
       System.out.printf("로그인 비번: ");
-      loginPw = sc.nextLine().trim();
+      loginPw = Container.scanner.nextLine().trim();
 
       if (loginPw.length() == 0) {
         System.out.println("비밀번호를 입력해주세요.");
@@ -57,7 +58,7 @@ public class MemberController extends Controller {
       while (true) {
 
         System.out.printf("로그인 비번 확인: ");
-        loginPwConfirm = sc.nextLine().trim();
+        loginPwConfirm = Container.scanner.nextLine().trim();
 
         if (!loginPw.equals(loginPwConfirm)) {
           loginPwConfirmSame = false;
@@ -77,7 +78,7 @@ public class MemberController extends Controller {
     //이름 입력
     while (true) {
       System.out.printf("이름: ");
-      name = sc.nextLine();
+      name = Container.scanner.nextLine();
 
       if (name.length() == 0) {
         System.out.println("이름을 입력해주세요.");
@@ -111,9 +112,9 @@ public class MemberController extends Controller {
       }
 
       System.out.print("ID: ");
-      loginId = sc.nextLine();
+      loginId = Container.scanner.nextLine();
       System.out.print("PW: ");
-      loginPw = sc.nextLine();
+      loginPw = Container.scanner.nextLine();
 
       if (loginId.length() == 0 || loginPw.length() == 0) {
         System.out.println("로그인 아이디나 로그인 비밀번호를 입력해주세요.");

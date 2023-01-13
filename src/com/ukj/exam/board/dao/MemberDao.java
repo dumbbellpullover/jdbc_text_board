@@ -1,17 +1,14 @@
 package com.ukj.exam.board.dao;
 
 import com.ukj.exam.board.Member;
+import com.ukj.exam.board.container.Container;
 import com.ukj.exam.board.util.DBUtil;
 import com.ukj.exam.board.util.SecSql;
 
-import java.sql.Connection;
 import java.util.Map;
 
 public class MemberDao {
-  private Connection conn;
-  public MemberDao(Connection conn) {
-    this.conn = conn;
-  }
+
 
   public boolean isLoginIdDup(String loginId) {
     SecSql sql = new SecSql();
@@ -20,7 +17,7 @@ public class MemberDao {
     sql.append("FROM member");
     sql.append("WHERE loginId = ?", loginId);
 
-    return DBUtil.selectRowBooleanValue(conn, sql);
+    return DBUtil.selectRowBooleanValue(Container.conn, sql);
   }
 
   public boolean isLoginPwDup(String loginPw) {
@@ -30,7 +27,7 @@ public class MemberDao {
     sql.append("FROM member");
     sql.append("WHERE loginPw = ?", loginPw);
 
-    return DBUtil.selectRowBooleanValue(conn, sql);
+    return DBUtil.selectRowBooleanValue(Container.conn, sql);
   }
 
   public int join(String loginId, String loginPw, String name) {
@@ -40,7 +37,7 @@ public class MemberDao {
     sql.append("(regDate, updateDate, loginId, loginPw, name) VALUES");
     sql.append("(NOW(), NOW(), ?, ?, ?)", loginId, loginPw, name);
 
-    return DBUtil.insert(conn, sql);
+    return DBUtil.insert(Container.conn, sql);
   }
 
   public Member getMemberLoginIdPw(String loginId, String loginPw) {
@@ -49,7 +46,7 @@ public class MemberDao {
     sql.append("FROM member");
     sql.append("WHERE loginId = ? AND loginPw = ?", loginId, loginPw);
 
-    Map<String, Object> memberMap = DBUtil.selectRow(conn, sql);
+    Map<String, Object> memberMap = DBUtil.selectRow(Container.conn, sql);
 
     return new Member(memberMap);
   }

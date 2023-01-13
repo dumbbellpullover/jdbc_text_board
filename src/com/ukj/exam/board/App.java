@@ -1,21 +1,19 @@
 package com.ukj.exam.board;
 
-import com.ukj.exam.board.controller.ArticleController;
-import com.ukj.exam.board.controller.MemberController;
+import com.ukj.exam.board.container.Container;
 
 import java.sql.*;
-import java.util.*;
 
 public class App {
   public void run() {
-    Scanner sc = Container.scanner;
-    String cmd;
 
+    Container.init();
     Connection conn = null;
 
+    String cmd;
     while (true) {
       System.out.printf("\n명령어 > ");
-      cmd = sc.nextLine().trim();
+      cmd = Container.scanner.nextLine().trim();
       Rq rq = new Rq(cmd);
 
       // DB 연결 시작
@@ -31,11 +29,12 @@ public class App {
 
       try {
         conn = DriverManager.getConnection(url, "guest", "bemyguest");
+        Container.conn = conn;
 
         // DB 연결 중
 
         // 쿼리
-        action(sc, cmd, conn, rq);
+        action(rq, cmd);
 
       } catch (SQLException e) {
         System.err.println("예외: DB에 연결할 수 없습니다.");
@@ -44,7 +43,7 @@ public class App {
 
       } finally {
         try {
-          if (conn != null && !conn.isClosed()) {
+          if (conn!= null && !conn.isClosed()) {
             conn.close();
 
           }
@@ -60,32 +59,23 @@ public class App {
 
   }
 
-  private void action(Scanner sc, String cmd, Connection conn, Rq rq) {
-    ArticleController articleController = new ArticleController(conn, sc, rq);
-    MemberController memberController = new MemberController(conn, sc);
+  private void action(Rq rq, String cmd) {
 
     if (rq.getUrlPath().equals("/usr/member/join")) {
-      memberController.join();
-    }
-    else if (rq.getUrlPath().equals("/usr/member/login")) {
-      memberController.login();
-    }
-    else if (rq.getUrlPath().equals("/usr/article/list")) { // 게시물 리스트
-      articleController.showList();
-    }
-    else if (rq.getUrlPath().equals("/usr/article/detail")) { // 게시물 상세 보기
-      articleController.showDetail();
-    }
-    else if (rq.getUrlPath().equals("/usr/article/write")) {  // 게시물 생성
-      articleController.add();
-    }
-    else if (rq.getUrlPath().equals("/usr/article/modify")) {
-      articleController.modify();
-    }
-    else if (rq.getUrlPath().equals("/usr/article/delete")) {
-      articleController.remove();
-    }
-    else if (cmd.equals("exit")) {
+      Container.memberController.join();
+    } else if (rq.getUrlPath().equals("/usr/member/login")) {
+      Container.memberController.login();
+    } else if (rq.getUrlPath().equals("/usr/article/list")) { // 게시물 리스트
+      Container.articleController.showList();
+    } else if (rq.getUrlPath().equals("/usr/article/detail")) { // 게시물 상세 보기
+      Container.articleController.showDetail(rq);
+    } else if (rq.getUrlPath().equals("/usr/article/write")) {  // 게시물 생성
+      Container.articleController.add();
+    } else if (rq.getUrlPath().equals("/usr/article/modify")) {
+      Container.articleController.modify(rq);
+    } else if (rq.getUrlPath().equals("/usr/article/delete")) {
+      Container.articleController.remove(rq);
+    } else if (cmd.equals("exit")) {
       System.out.println("시스템 종료");
       System.exit(0); // 프로그램 즉시 종료
 

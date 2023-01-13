@@ -1,15 +1,18 @@
 package com.ukj.exam.board.service;
 
 import com.ukj.exam.board.Article;
+import com.ukj.exam.board.container.Container;
 import com.ukj.exam.board.dao.ArticleDao;
 
 import java.sql.Connection;
 import java.util.List;
 
 public class ArticleService {
+
   private ArticleDao articleDao;
-  public ArticleService(Connection conn) {
-    articleDao = new ArticleDao(conn);
+
+  public ArticleService() {
+    this.articleDao = Container.articleDao;
   }
 
   public int add(String title, String body) {
@@ -33,6 +36,6 @@ public class ArticleService {
   }
 
   public List<Article> getArticles() {
-    return articleDao.getArticles();
+    return Container.articleDao.getArticles();
   }
 }
