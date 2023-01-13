@@ -99,7 +99,7 @@ public class DBUtil {
     Map<String, Object> row = selectRow(dbConn, sql);
 
     for (String key : row.keySet()) {
-      return ((int) row.get(key)) == 1;
+      return (Integer.parseInt(String.valueOf(row.get(key)))) == 1;
     }
 
     return false;

@@ -193,7 +193,7 @@ public class App {
 
     }
     else if (rq.getUrlPath().equals("/usr/member/join")) {
-      String loginId;
+      String loginId = "";
       String loginPw;
       String loginPwConfirm;
       String name;
@@ -204,6 +204,18 @@ public class App {
       while (true) {
         System.out.printf("로그인 아이디: ");
         loginId = sc.nextLine().trim();
+
+        SecSql sql = new SecSql();
+        sql.append("SELECT COUNT(*) > 0 AS booleanValue");
+        sql.append("FROM member");
+        sql.append("WHERE loginId = ?", loginId);
+
+        boolean isLoginIdDup = DBUtil.selectRowBooleanValue(conn, sql);
+
+        if(isLoginIdDup) {
+          System.out.printf("이미 사용중인 아이디입니다.\n", loginId);
+          continue;
+        }
 
         if (loginId.length() == 0) {
           System.out.println("아이디를 입력해주세요.");
