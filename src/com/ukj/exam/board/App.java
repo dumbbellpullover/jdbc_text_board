@@ -32,6 +32,10 @@ public class App {
       try {
         conn = DriverManager.getConnection(url, "guest", "bemyguest");
 
+        // DB 연결 중
+
+        // 여러가지
+
         doAction(sc, cmd, conn, rq);
 
       } catch (SQLException e) {
@@ -51,7 +55,7 @@ public class App {
 
         }
 
-      } // DB 연결 끝
+      }
 
     }
 
@@ -73,51 +77,6 @@ public class App {
         articles.add(new Article(articleMap));
       }
 
-      /*
-      try {
-        // 쿼리 작성 부분
-        String query = "select * ";
-        query += "from article ";
-        query += "order by id desc ";
-
-        pstat = conn.prepareStatement(query);
-        rs = pstat.executeQuery();
-
-        while (rs.next()) {
-          int id = rs.getInt("id");
-          String regDate = rs.getString("regDate");
-          String updateDate = rs.getString("updateDate");
-          String title = rs.getString("title");
-          String body = rs.getString("body");
-
-          Article article = new Article(id, regDate, updateDate, title, body);
-          articles.add(article);
-        }
-
-      } catch (SQLException e) {
-        System.out.println("에러: " + e);
-
-      } finally {
-        try {
-          if (rs != null && !rs.isClosed()) {
-            rs.close();
-          }
-        } catch (SQLException e){
-          e.printStackTrace();
-
-        }
-
-        try {
-          if (pstat != null && !pstat.isClosed()) {
-            pstat.close();
-          }
-        } catch (SQLException e){
-          e.printStackTrace();
-
-        }
-
-      }*/
-
       System.out.println("\n== 게시물 리스트 ==");
 
       if (articles.isEmpty()) {
@@ -132,6 +91,7 @@ public class App {
       }
 
     }
+
     else if (rq.getUrlPath().equals("/usr/article/write")) {  // 게시물 생성
       System.out.println("\n== 게시물 생성 ==");
       System.out.printf("제목: ");
@@ -148,32 +108,8 @@ public class App {
 
       System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
 
-      /*
-      try {
-        // 쿼리 작성 부분
-        String query = "insert into article (regDate, updateDate, title, body) \n" +
-            "values (now(), now(), \"" + title + "\", \"" + body + "\");";
-
-        pstat = conn.prepareStatement(query);
-        pstat.executeUpdate();
-
-
-      } catch (SQLException e) {
-        System.out.println("에러: " + e);
-
-      } finally {
-        try {
-          if (pstat != null && !pstat.isClosed()) {
-            pstat.close();
-          }
-        } catch (SQLException e){
-            e.printStackTrace();
-
-        }
-
-      }
-      */
     }
+
     else if (rq.getUrlPath().equals("/usr/article/modify")) {
       int id = rq.getIntParam("id", 0);
 
@@ -198,33 +134,36 @@ public class App {
 
       System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
 
-      /*
-      try {
-        // 쿼리 작성 부분
-        String query = "update article ";
-        query += "set updateDate = now() ";
-        query += ", title = \"" + title + "\"";
-        query += ", body = \"" + body + "\"";
-        query += "where id = " + id + ";";
 
-        pstat = conn.prepareStatement(query);
-        pstat.executeUpdate();
+    }
 
-      } catch (SQLException e) {
-        System.out.println("에러: " + e);
+    else if (rq.getUrlPath().equals("/usr/article/delete")) {
+      int id = rq.getIntParam("id", 0);
 
-      } finally {
-        try {
-          if (pstat != null && !pstat.isClosed()) {
-            pstat.close();
-          }
-        } catch (SQLException e){
-          e.printStackTrace();
-
-        }
-
+      if (id == 0) {
+        System.out.println("id를 올바르게 입력해주세요.");
+        return;
       }
-      */
+
+      SecSql sql = new SecSql();
+      sql.append("SELECT COUNT(*) AS cnt FROM article");
+      sql.append("WHERE id = ?", id);
+
+      int articlesCount = DBUtil.selectRowIntValue(conn, sql);
+
+      if(articlesCount != 1) {
+        System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+        return;
+      }
+
+      sql = new SecSql();
+      sql.append("DELETE FROM article");
+      sql.append("WHERE id = ?", id);
+
+      DBUtil.delete(conn, sql);
+
+      System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
+
     }
     else if (cmd.equals("exit")) {
       System.out.println("시스템 종료");
