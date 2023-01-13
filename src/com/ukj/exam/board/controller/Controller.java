@@ -10,15 +10,14 @@ public abstract class Controller {
   protected Scanner sc;
   protected Rq rq;
 
-  public void setConn(Connection conn) {
-    this.conn = conn;
-  }
 
-  public void setScanner(Scanner sc) {
+  public Controller(Scanner sc) {
     this.sc = sc;
   }
 
-  public void setRq(Rq rq) {
+  public Controller(Scanner sc, Rq rq) {
+    this.sc = sc;
     this.rq = rq;
   }
+
 }
