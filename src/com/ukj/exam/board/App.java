@@ -2,8 +2,6 @@ package com.ukj.exam.board;
 
 import com.ukj.exam.board.controller.ArticleController;
 import com.ukj.exam.board.controller.MemberController;
-import com.ukj.exam.board.util.DBUtil;
-import com.ukj.exam.board.util.SecSql;
 
 import java.sql.*;
 import java.util.*;
@@ -66,8 +64,13 @@ public class App {
     ArticleController articleController = new ArticleController(conn, sc, rq);
     MemberController memberController = new MemberController(conn, sc);
 
-
-    if (rq.getUrlPath().equals("/usr/article/list")) { // 게시물 리스트
+    if (rq.getUrlPath().equals("/usr/member/join")) {
+      memberController.join();
+    }
+    else if (rq.getUrlPath().equals("/usr/member/login")) {
+      memberController.login();
+    }
+    else if (rq.getUrlPath().equals("/usr/article/list")) { // 게시물 리스트
       articleController.showList();
     }
     else if (rq.getUrlPath().equals("/usr/article/detail")) { // 게시물 상세 보기
@@ -81,9 +84,6 @@ public class App {
     }
     else if (rq.getUrlPath().equals("/usr/article/delete")) {
       articleController.remove();
-    }
-    else if (rq.getUrlPath().equals("/usr/member/join")) {
-      memberController.join();
     }
     else if (cmd.equals("exit")) {
       System.out.println("시스템 종료");

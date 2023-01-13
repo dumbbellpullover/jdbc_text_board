@@ -3,13 +3,9 @@ package com.ukj.exam.board.controller;
 import com.ukj.exam.board.Article;
 import com.ukj.exam.board.Rq;
 import com.ukj.exam.board.service.ArticleService;
-import com.ukj.exam.board.util.DBUtil;
-import com.ukj.exam.board.util.SecSql;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class ArticleController extends Controller {

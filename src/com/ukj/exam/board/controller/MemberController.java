@@ -1,8 +1,7 @@
 package com.ukj.exam.board.controller;
 
+import com.ukj.exam.board.Member;
 import com.ukj.exam.board.service.MemberService;
-import com.ukj.exam.board.util.DBUtil;
-import com.ukj.exam.board.util.SecSql;
 
 import java.sql.Connection;
 import java.util.Scanner;
@@ -95,4 +94,46 @@ public class MemberController extends Controller {
 
   }
 
+  public void login() {
+    String loginId;
+    String loginPw;
+    int tryCount = 3;
+
+    System.out.println("\n== 로그인 ==");
+
+    while (true) {
+      if (tryCount > 0) {
+        System.out.printf("입력 가능 횟수: %d\n", tryCount);
+      } else if (tryCount == 0) {
+        System.out.println("입력 가능 횟수를 전부 소진하였습니다.");
+        System.out.println("아이디와 비밀번호 확인 후 다시 시도해 주세요.");
+        break;
+      }
+
+      System.out.print("ID: ");
+      loginId = sc.nextLine();
+      System.out.print("PW: ");
+      loginPw = sc.nextLine();
+
+      if (loginId.length() == 0 || loginPw.length() == 0) {
+        System.out.println("로그인 아이디나 로그인 비밀번호를 입력해주세요.");
+        tryCount--;
+        continue;
+      }
+
+      boolean isLoginIdDup = memberService.isLoginIdDup(loginId);
+      boolean isLoginPwDup = memberService.isLoginPwDup(loginPw);
+
+      if (!isLoginIdDup || !isLoginPwDup) {
+        System.out.println("일치하는 아이디나 비밀번호가 없습니다.");
+        tryCount--;
+        continue;
+      }
+
+      Member member = memberService.getMemberLoginIdPw(loginId, loginPw);
+
+      System.out.printf("%s님 환영합니다!\n", member.getName());
+      break;
+    }
+  }
 }
