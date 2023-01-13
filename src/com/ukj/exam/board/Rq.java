@@ -1,5 +1,7 @@
 package com.ukj.exam.board;
 
+import com.ukj.exam.board.util.Util;
+
 import java.util.Map;
 
 public class Rq {

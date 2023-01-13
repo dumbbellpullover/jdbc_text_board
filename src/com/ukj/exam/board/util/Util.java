@@ -1,4 +1,4 @@
-package com.ukj.exam.board;
+package com.ukj.exam.board.util;
 
 import java.util.HashMap;
 import java.util.Map;
