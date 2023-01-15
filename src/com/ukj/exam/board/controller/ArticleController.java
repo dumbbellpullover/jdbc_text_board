@@ -34,8 +34,11 @@ public class ArticleController extends Controller {
     System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
   }
 
-  public void showList() {
-    List<Article> articles = articleService.getArticles();
+  public void showList(Rq rq) {
+
+    int page = rq.getIntParam("page", 1);
+    int pageItemCount = rq.getIntParam("count", 4);
+    List<Article> articles = articleService.getArticles(page, pageItemCount);
 
     System.out.println("\n== 게시물 리스트 ==");
 
@@ -49,6 +52,8 @@ public class ArticleController extends Controller {
     for (Article article : articles) {
       System.out.printf("% 2d / %s / %s / %s\n", article.id, article.updateDate, article.title, article.extra__writer);
     }
+
+    System.out.printf("== %d 페이지 ==\n", page);
 
   }
 

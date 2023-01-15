@@ -43,6 +43,22 @@ insert into article (regDate, updateDate, memberId, title, body, hit)
 values (now(), now(), 1, 'testTitle3', 'testBody3', 0);
 insert into article (regDate, updateDate, memberId, title, body, hit)
 values (now(), now(), 2, 'testTitle4', 'testBody4', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 1, 'testTitle3', 'testBody3', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 2, 'testTitle4', 'testBody4', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 1, 'testTitle3', 'testBody3', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 2, 'testTitle4', 'testBody4', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 1, 'testTitle3', 'testBody3', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 2, 'testTitle4', 'testBody4', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 1, 'testTitle3', 'testBody3', 0);
+insert into article (regDate, updateDate, memberId, title, body, hit)
+values (now(), now(), 2, 'testTitle4', 'testBody4', 0);
 
 
 # 조인 getArticles

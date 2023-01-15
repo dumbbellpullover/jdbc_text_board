@@ -73,7 +73,7 @@ public class App {
     } else if (rq.getUrlPath().equals("/usr/member/whoami")) {
       Container.memberController.whoAmI();
     } else if (rq.getUrlPath().equals("/usr/article/list")) { // 게시물 리스트
-      Container.articleController.showList();
+      Container.articleController.showList(rq);
     } else if (rq.getUrlPath().equals("/usr/article/detail")) { // 게시물 상세 보기
       Container.articleController.showDetail(rq);
     } else if (rq.getUrlPath().equals("/usr/article/write")) {  // 게시물 생성

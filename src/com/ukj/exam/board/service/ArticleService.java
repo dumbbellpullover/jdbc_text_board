@@ -34,8 +34,8 @@ public class ArticleService {
     articleDao.update(id, title, body);
   }
 
-  public List<Article> getArticles() {
-    return Container.articleDao.getArticles();
+  public List<Article> getArticles(int page, int pageItemCount) {
+    return Container.articleDao.getArticles(page, pageItemCount);
   }
 
   public void increaseHit(int id) {

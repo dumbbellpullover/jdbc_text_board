@@ -62,8 +62,11 @@ public class ArticleDao {
     DBUtil.update(Container.conn, sql);
   }
 
-  public List<Article> getArticles() {
+  public List<Article> getArticles(int page, int pageItemCount) {
     List<Article> articles = new ArrayList<>();
+
+    int LimitFrom = (page - 1) * pageItemCount;
+    int LimitTake = pageItemCount;
 
     SecSql sql = new SecSql();
     sql.append("SELECT A.*, M.name AS extra__writer");
@@ -71,6 +74,7 @@ public class ArticleDao {
     sql.append("JOIN member AS M");
     sql.append("ON A.memberId = M.id");
     sql.append("ORDER BY A.id DESC");
+    sql.append("Limit ?, ?", LimitFrom, LimitTake);
 
     List< Map<String, Object> > articleListMap = DBUtil.selectRows(Container.conn, sql);
 
