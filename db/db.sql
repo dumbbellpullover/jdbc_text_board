@@ -30,7 +30,9 @@ alter table article add column hit int(10) unsigned not null after body;
 insert into member (regDate, updateDate, loginId, loginPw, name)
 values (now(), now(), 'testId1', 'testPw1', 'testName1');
 insert into member (regDate, updateDate, loginId, loginPw, name)
-values (now(), now(), 'testId1', 'testPw1', 'testName2');
+values (now(), now(), 'testId2', 'testPw2', 'testName2');
+insert into member (regDate, updateDate, loginId, loginPw, name)
+values (now(), now(), 'testId3', 'testPw3', 'testName3');
 
 # 임시 게시물
 insert into article (regDate, updateDate, memberId, title, body, hit)
@@ -43,7 +45,7 @@ insert into article (regDate, updateDate, memberId, title, body, hit)
 values (now(), now(), 2, 'testTitle4', 'testBody4', 0);
 
 
-# 조인해서 작성자 찾기
+# 조인 getArticles
 select * from member as M join article as A on M.id = A.memberId;
 
 # 조인 getArticleById
