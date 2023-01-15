@@ -5,19 +5,18 @@ import com.ukj.exam.board.container.Container;
 import com.ukj.exam.board.util.DBUtil;
 import com.ukj.exam.board.util.SecSql;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ArticleDao {
 
-  public int add(String title, String body) {
+  public int add(int memberId, String title, String body) {
     SecSql sql = new SecSql();
 
     sql.append("INSERT INTO article");
-    sql.append("(regDate, updateDate, title, body) VALUES");
-    sql.append("(NOW(), NOW(), ?, ?)", title, body);
+    sql.append("(regDate, updateDate, memberId, title, body) VALUES");
+    sql.append("(NOW(), NOW(), ?, ?, ?)", memberId, title, body);
 
     return DBUtil.insert(Container.conn, sql);
   }
@@ -67,11 +66,13 @@ public class ArticleDao {
     List<Article> articles = new ArrayList<>();
 
     SecSql sql = new SecSql();
-    sql.append("SELECT *");
-    sql.append("FROM article");
-    sql.append("ORDER BY id DESC");
+    sql.append("SELECT A.*, M.name AS extra__writer");
+    sql.append("FROM article AS A");
+    sql.append("JOIN member AS M");
+    sql.append("ON A.memberId = M.id");
+    sql.append("ORDER BY A.id DESC");
 
-    List<Map<String, Object>> articleListMap = DBUtil.selectRows(Container.conn, sql);
+    List< Map<String, Object> > articleListMap = DBUtil.selectRows(Container.conn, sql);
 
     for (Map<String, Object> articleMap : articleListMap) {
       articles.add(new Article(articleMap));
