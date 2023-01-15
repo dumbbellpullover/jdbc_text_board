@@ -37,4 +37,8 @@ public class ArticleService {
   public List<Article> getArticles() {
     return Container.articleDao.getArticles();
   }
+
+  public void increaseHit(int id) {
+    articleDao.increaseHit(id);
+  }
 }
