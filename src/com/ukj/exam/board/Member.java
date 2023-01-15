@@ -19,7 +19,13 @@ public class Member {
     this.name = (String) memberMap.get("name");
   }
 
-  public Object getName() {
+  public String getName() {
     return this.name;
+  }
+
+  public int getId() { return this.id; }
+
+  public String getLoginId() {
+    return this.loginId;
   }
 }

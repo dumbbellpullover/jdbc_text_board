@@ -12,7 +12,10 @@ public class App {
 
     String cmd;
     while (true) {
-      System.out.printf("\n명령어 > ");
+
+      String promptName = "명령어";
+
+      System.out.printf("\n%s > ", promptName);
       cmd = Container.scanner.nextLine().trim();
       Rq rq = new Rq(cmd);
 
@@ -65,6 +68,10 @@ public class App {
       Container.memberController.join();
     } else if (rq.getUrlPath().equals("/usr/member/login")) {
       Container.memberController.login();
+    } else if (rq.getUrlPath().equals("/usr/member/logout")) {
+      Container.memberController.logout();
+    } else if (rq.getUrlPath().equals("/usr/member/whoami")) {
+      Container.memberController.whoAmI();
     } else if (rq.getUrlPath().equals("/usr/article/list")) { // 게시물 리스트
       Container.articleController.showList();
     } else if (rq.getUrlPath().equals("/usr/article/detail")) { // 게시물 상세 보기
